@@ -1,13 +1,120 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  padding: 0;
+  background-color: #ebebe0 !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+/* COMMON START */
+main {
+  min-height: calc(100vh - 12rem);
+}
+a {
+  text-decoration: none !important;
+}
+li {
+  list-style: none;
+}
+.row {
+  margin: 0px !important;
+}
+.react-share__ShareButton {
+  padding: 10px !important;
+}
+.addedtoWishlist {
+  color: #ff6666;
+}
+.success {
+  color: #69cc00 !important;
+}
+.danger {
+  color: #ff6666 !important;
+  position: relative;
+  animation: myfirst 0.1s 2;
+  animation-direction: alternate;
+  font-weight: bold;
+}
+@keyframes myfirst {
+  0% {
+    left: 0px;
+  }
+  25% {
+    left: 10px;
+  }
+  50% {
+    left: 10px;
+  }
+  75% {
+    left: 0px;
+  }
+  100% {
+    left: 0px;
+  }
+}
+#react-paginate ul {
+  display: inline-block;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+#react-paginate li {
+  display: inline-block;
+}
+
+/* COMMON END */
+
+/* FOOTER START */
+.footer {
+  height: 5.72rem;
+  width: 100%;
+  padding: 10px 0px;
+  background-color: #212529;
+  color: rgba(255, 255, 255, 0.55);
+  /* position: absolute; */
+  /* bottom: 0; */
+}
+.footer-social-icon a {
+  color: rgba(255, 255, 255, 0.55);
+  padding: 20px;
+}
+
+/* FOOTER END */
+
+/* LOGIN START */
+.loginCard,
+.registerCard {
+  text-align: center;
+  position: relative;
+}
+#logintext {
+  font-family: none;
+  color: grey;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+.forgotPassword {
+  padding-right: 30px;
+}
+.signup {
+  padding-left: 10px;
+}
+/* LOGIN END */
+
+@media (max-width: 991px) {
+  .loginCard {
+    margin: 5rem 0rem !important;
+    width: 100% !important;
+  }
+  .registerCard {
+    margin: 1.5rem 0rem !important;
+    width: 100% !important;
+  }
 }
