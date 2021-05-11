@@ -1,14 +1,19 @@
 import React from "react";
 import { Navbar, Nav, Container } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import PersonIcon from "@material-ui/icons/Person";
+import { logout } from "../../actions/userActions";
 
 function Header() {
   const userLogin = useSelector((state) => state.userLogin);
   const { user, loading, error } = userLogin;
+  const dispatch = useDispatch();
+  const handleLogoutAction = () => {
+    dispatch(logout());
+  };
   return (
     <Navbar bg="dark" variant="dark" collapseOnSelect expand="md" sticky="top">
       <Container fluid>
@@ -42,12 +47,10 @@ function Header() {
               </LinkContainer>
             )}
             {user && (
-              <LinkContainer to="logout">
-                <Nav.Link>
-                  Logout
-                  <ExitToAppIcon />
-                </Nav.Link>
-              </LinkContainer>
+              <Nav.Link onClick={handleLogoutAction}>
+                Logout
+                <ExitToAppIcon />
+              </Nav.Link>
             )}
             {user && (
               <LinkContainer to="account">

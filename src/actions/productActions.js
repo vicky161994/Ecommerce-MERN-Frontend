@@ -18,7 +18,7 @@ export const productlist = (page) => async (dispatch) => {
     });
     dispatch({
       type: PRODUCT_LIST_SUCCESS,
-      payload: data.data,
+      payload: data,
     });
   } catch (error) {
     dispatch({

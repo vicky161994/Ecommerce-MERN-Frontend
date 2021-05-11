@@ -43,6 +43,9 @@ li {
   animation-direction: alternate;
   font-weight: bold;
 }
+.pagination {
+  margin: 10px 0px;
+}
 @keyframes myfirst {
   0% {
     left: 0px;
@@ -116,5 +119,34 @@ li {
   .registerCard {
     margin: 1.5rem 0rem !important;
     width: 100% !important;
+  }
+  .makeStyles-root-1 {
+    margin-top: 5px !important;
+  }
+  .price {
+    margin-top: 10px !important;
+  }
+}
+
+@media (min-width: 991px) {
+  .productDetailh2 {
+    line-height: 1.5;
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+  .productDetailp {
+    line-height: 1.5;
+    height: 15em;
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    text-align: justify;
   }
 }

@@ -12,6 +12,7 @@ import ShareIcon from "@material-ui/icons/Share";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import SocialShare from "../components/dialogs/SocialShare";
+import { addWishlist } from "../actions/userActions";
 const useStyles = makeStyles({
   root: {
     marginTop: 49,
@@ -30,6 +31,9 @@ function ProductDetail(props) {
   const { loading, product, error } = useSelector(
     (state) => state.productDetail
   );
+  const userLogin = useSelector((state) => state.userLogin);
+  let { user } = userLogin;
+  const [wishlist, setWishlist] = useState(user.wishlist);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(productDetail(productID));
@@ -39,31 +43,17 @@ function ProductDetail(props) {
     setOpenDialog(!openDialog);
   };
 
-  const handleWishlist = () => {
-    let data;
-    data = localStorage.getItem("thevickyk.com-wishlist");
-    if (data) {
-      data = JSON.parse(data);
-      if (data.includes(product.id)) {
-        const index = data.indexOf(5);
-        if (index > -1) {
-          data.splice(index, 1);
-        }
-      } else {
-        data.push(product.id);
-      }
-      localStorage.setItem("thevickyk.com-wishlist", JSON.stringify(data));
+  const handleWishlist = async () => {
+    if (!user) {
+      props.history.push("/login");
+    } else {
+      await dispatch(addWishlist(product._id));
+      user = localStorage.getItem("thevickyk.com-userInfo")
+        ? JSON.parse(localStorage.getItem("thevickyk.com-userInfo"))
+        : null;
     }
-    if (!data) {
-      let data = [];
-      data.push(product.id);
-      localStorage.setItem("thevickyk.com-wishlist", JSON.stringify(data));
-    }
+    setWishlist(user.wishlist);
   };
-  const wishlist = localStorage.getItem("thevickyk.com-wishlist")
-    ? JSON.parse(localStorage.getItem("thevickyk.com-wishlist"))
-    : null;
-
   return (
     <Container>
       {openDialog && <SocialShare handleDialog={handleShareButton} />}
@@ -110,7 +100,12 @@ function ProductDetail(props) {
               >
                 {product.description}
               </Typography>
-              <Typography gutterBottom variant="h5" component="h3">
+              <Typography
+                gutterBottom
+                variant="h5"
+                component="h3"
+                className="price"
+              >
                 <span style={{ fontSize: "15px", fontWeight: "bold" }}>$</span>
                 {product.price}
               </Typography>
@@ -127,7 +122,7 @@ function ProductDetail(props) {
                 >
                   <FavoriteIcon
                     className={`${
-                      wishlist && wishlist.includes(product.id)
+                      wishlist && wishlist.includes(product._id)
                         ? "addedtoWishlist"
                         : ""
                     }`}
@@ -141,30 +136,6 @@ function ProductDetail(props) {
           </Col>
         </Row>
       )}
-      <style>
-        {`
-          .productDetailh2 {
-            line-height: 1.5;
-            white-space: normal;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: block;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-          }
-          .productDetailp {
-            line-height: 1.5;
-            height:15em;
-            white-space: normal;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: block;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            text-align: justify;
-          }
-          `}
-      </style>
     </Container>
   );
 }

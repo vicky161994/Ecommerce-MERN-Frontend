@@ -79,7 +79,6 @@ function SocialShare(props) {
             <FacebookMessengerShareButton url={window.location.href}>
               <FacebookMessengerIcon size={40} round={true} />
             </FacebookMessengerShareButton>
-            <br />
             <EmailShareButton url={window.location.href}>
               <EmailIcon size={40} round={true} />
             </EmailShareButton>
