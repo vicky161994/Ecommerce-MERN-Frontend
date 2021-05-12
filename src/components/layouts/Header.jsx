@@ -6,6 +6,7 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import PersonIcon from "@material-ui/icons/Person";
 import { logout } from "../../actions/userActions";
+import Badge from "@material-ui/core/Badge";
 
 function Header() {
   const userLogin = useSelector((state) => state.userLogin);
@@ -14,6 +15,14 @@ function Header() {
   const handleLogoutAction = () => {
     dispatch(logout());
   };
+  let cartItems;
+  if (user) {
+    cartItems = user.cartItems;
+  } else {
+    cartItems = localStorage.getItem("thevickyk.com-cartItems")
+      ? JSON.parse(localStorage.getItem("thevickyk.com-cartItems"))
+      : null;
+  }
   return (
     <Navbar bg="dark" variant="dark" collapseOnSelect expand="md" sticky="top">
       <Container fluid>
@@ -38,7 +47,14 @@ function Header() {
             <LinkContainer to="cart">
               <Nav.Link>
                 Cart
-                <ShoppingCartIcon />
+                <Badge
+                  badgeContent={
+                    cartItems ? cartItems.reduce((n, { qty }) => n + qty, 0) : 0
+                  }
+                  color="error"
+                >
+                  <ShoppingCartIcon />
+                </Badge>
               </Nav.Link>
             </LinkContainer>
             {!user && (

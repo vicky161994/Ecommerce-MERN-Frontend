@@ -12,7 +12,7 @@ import ShareIcon from "@material-ui/icons/Share";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import SocialShare from "../components/dialogs/SocialShare";
-import { addWishlist } from "../actions/userActions";
+import { addToCart, addWishlist } from "../actions/userActions";
 const useStyles = makeStyles({
   root: {
     marginTop: 49,
@@ -53,6 +53,9 @@ function ProductDetail(props) {
         : null;
     }
     setWishlist(user.wishlist);
+  };
+  const handleCart = () => {
+    dispatch(addToCart(product._id));
   };
   return (
     <Container>
@@ -129,7 +132,7 @@ function ProductDetail(props) {
                   />
                 </IconButton>
               </div>
-              <Button variant="contained" color="primary">
+              <Button variant="contained" color="primary" onClick={handleCart}>
                 add to cart
               </Button>
             </div>

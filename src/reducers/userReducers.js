@@ -1,4 +1,5 @@
 import {
+  ADD_CART_SUCCESS,
   ADD_WISHLIST_FAIL,
   ADD_WISHLIST_REQUEST,
   ADD_WISHLIST_SUCCESS,
@@ -32,6 +33,8 @@ export const userLoginReducer = (state = {}, action) => {
       return { loading: false, user: action.payload };
     case USER_LOGIN_FAIL:
       return { loading: false, error: action.payload };
+    case ADD_CART_SUCCESS:
+      return { loading: false, user: action.payload };
     case USER_LOGOUT:
       return {};
     default:

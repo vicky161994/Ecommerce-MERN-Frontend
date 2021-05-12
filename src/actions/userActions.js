@@ -10,6 +10,9 @@ import {
   USER_REGISTER_SUCCESS,
   ADD_WISHLIST_FAIL,
   ADD_WISHLIST_SUCCESS,
+  ADD_CART_REQUEST,
+  ADD_CART_FAIL,
+  ADD_CART_SUCCESS,
 } from "../constants/userConstants";
 
 export const register = (name, email, password, number) => async (dispatch) => {
@@ -92,5 +95,75 @@ export const addWishlist = (productId) => async (dispatch, getState) => {
   } catch (error) {
     console.log(error);
     dispatch({ type: ADD_WISHLIST_FAIL, payload: error.message });
+  }
+};
+
+export const addToCart = (productId) => async (dispatch, getState) => {
+  dispatch({ type: ADD_CART_REQUEST });
+  try {
+    const {
+      userLogin: { user },
+    } = getState();
+    if (user) {
+      let data;
+      if (user.cartItems) {
+        if (user.cartItems.some((cart) => cart.productId === productId)) {
+          const index = user.cartItems.findIndex(
+            (cart) => cart.productId === productId
+          );
+          user.cartItems[index].qty = user.cartItems[index].qty + 1;
+        } else {
+          data = { productId, qty: 1 };
+          user.cartItems.push(data);
+        }
+      } else {
+        user.cartItems = [];
+        data = { productId, qty: 1 };
+        user.cartItems.push(data);
+      }
+      const response = await Axios.post(
+        "/api/users/add-to-cart",
+        {
+          cartItems: user.cartItems,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+      localStorage.setItem("thevickyk.com-userInfo", JSON.stringify(user));
+      dispatch({ type: ADD_CART_SUCCESS, payload: user });
+    } else {
+      const cartItems = localStorage.getItem("thevickyk.com-cartItems")
+        ? JSON.parse(localStorage.getItem("thevickyk.com-cartItems"))
+        : null;
+      if (cartItems) {
+        if (cartItems.some((cart) => cart.productId === productId)) {
+          const index = cartItems.findIndex(
+            (cart) => cart.productId === productId
+          );
+          cartItems[index].qty = cartItems[index].qty + 1;
+        } else {
+          let data = { productId, qty: 1 };
+          cartItems.push(data);
+        }
+        localStorage.setItem(
+          "thevickyk.com-cartItems",
+          JSON.stringify(cartItems)
+        );
+      } else {
+        let cartItems = [];
+        let data = { productId, qty: 1 };
+        cartItems.push(data);
+        localStorage.setItem(
+          "thevickyk.com-cartItems",
+          JSON.stringify(cartItems)
+        );
+      }
+    }
+  } catch (error) {
+    console.log(error);
+    dispatch({ type: ADD_CART_FAIL, error: error.response.data.message });
   }
 };

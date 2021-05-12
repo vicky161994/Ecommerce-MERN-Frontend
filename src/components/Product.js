@@ -13,7 +13,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import SocialShare from "./dialogs/SocialShare";
 import { useDispatch } from "react-redux";
-import { addWishlist } from "../actions/userActions";
+import { addToCart, addWishlist } from "../actions/userActions";
 const useStyles = makeStyles({
   root: {
     margin: 10,
@@ -26,7 +26,7 @@ const useStyles = makeStyles({
 function Product(props) {
   const classes = useStyles();
   let { product, index, user } = props;
-  const [wishlist, setWishlist] = useState(user.wishlist);
+  const [wishlist, setWishlist] = useState(user ? user.wishlist : null);
   const [openDialog, setOpenDialog] = useState(false);
   let productCategory = product.category
     .split("-")
@@ -70,6 +70,10 @@ function Product(props) {
   const handleShareButton = (e) => {
     setOpenDialog(!openDialog);
     return false;
+  };
+
+  const handleCart = () => {
+    dispatch(addToCart(product._id));
   };
 
   return (
@@ -123,7 +127,7 @@ function Product(props) {
               >
                 <ShareIcon />
               </IconButton>
-              <IconButton aria-label="add to cart">
+              <IconButton aria-label="add to cart" onClick={handleCart}>
                 <ShoppingCartIcon />
               </IconButton>
             </div>
