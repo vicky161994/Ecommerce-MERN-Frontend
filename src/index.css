@@ -150,3 +150,26 @@ li {
     text-align: justify;
   }
 }
+
+/* CART PAGE START */
+.cartpagecard {
+  padding: 15px;
+  /* display: flex;
+  flex-direction: row; */
+  /* justify-content: space-between; */
+  margin: 10px;
+}
+.cartpageimg {
+  height: 70px;
+  width: 5%;
+}
+
+.cartpageimg img {
+  height: 100%;
+  width: 100%;
+}
+
+/* .cartpagetitle {
+  width: 20%;
+} */
+/* CART PAGE END */

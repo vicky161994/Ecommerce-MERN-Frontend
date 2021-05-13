@@ -62,13 +62,13 @@ function Header() {
                 <Nav.Link>Login</Nav.Link>
               </LinkContainer>
             )}
-            {user && (
+            {user && user.token && (
               <Nav.Link onClick={handleLogoutAction}>
                 Logout
                 <ExitToAppIcon />
               </Nav.Link>
             )}
-            {user && (
+            {user && user.token && (
               <LinkContainer to="account">
                 <Nav.Link>
                   Account <PersonIcon />
