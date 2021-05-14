@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getcartItemList } from "../actions/cartActions";
 import CartProduct from "../components/CartProduct";
 
-function Cart() {
+function Cart(props) {
   const cartList = useSelector((state) => state.cartList);
   const userLogin = useSelector((state) => state.userLogin);
   const { loading, products, error } = cartList;
@@ -16,6 +16,14 @@ function Cart() {
     const { user } = userLogin;
     dispatch(getcartItemList());
   }, [dispatch, userLogin]);
+
+  const handleCheckout = async () => {
+    if (!userLogin.user) {
+      props.history.push("/login?redirect=checkout");
+    } else {
+      props.history.push("/checkout");
+    }
+  };
 
   return (
     <div>
@@ -77,7 +85,11 @@ function Cart() {
                   )
                 : 0}{" "}
             </Typography>
-            <Button variant="contained" color="primary">
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleCheckout}
+            >
               proceed to checkout
             </Button>
           </Card>

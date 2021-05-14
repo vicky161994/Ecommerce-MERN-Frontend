@@ -1,4 +1,5 @@
 import Axios from "axios";
+import { NOAUTH_ADD_CART_ITEM_LIST_SUCCESS } from "../constants/cartConstants";
 import {
   ADD_WISHLIST_REQUEST,
   USER_LOGIN_FAIL,
@@ -138,15 +139,25 @@ export const addToCart = (productId) => async (dispatch, getState) => {
       const cartItems = localStorage.getItem("thevickyk.com-cartItems")
         ? JSON.parse(localStorage.getItem("thevickyk.com-cartItems"))
         : null;
+      const {
+        cartList: { products },
+      } = getState();
       if (cartItems) {
         if (cartItems.some((cart) => cart.productId === productId)) {
           const index = cartItems.findIndex(
             (cart) => cart.productId === productId
           );
           cartItems[index].qty = cartItems[index].qty + 1;
+          // if (products.data.some((cart) => cart.cartList._id === productId)) {
+          //   const index = products.data.findIndex(
+          //     (cart) => cart.cartList._id === productId
+          //   );
+          //   products.data[index].qty = products.data[index].qty + 1;
+          // }
         } else {
           let data = { productId, qty: 1 };
           cartItems.push(data);
+          // products.data.push(data);
         }
         localStorage.setItem(
           "thevickyk.com-cartItems",
@@ -160,7 +171,9 @@ export const addToCart = (productId) => async (dispatch, getState) => {
           "thevickyk.com-cartItems",
           JSON.stringify(cartItems)
         );
+        // products.data.push(data);
       }
+      // dispatch({ type: NOAUTH_ADD_CART_ITEM_LIST_SUCCESS, payload: products });
     }
   } catch (error) {
     console.log(error);

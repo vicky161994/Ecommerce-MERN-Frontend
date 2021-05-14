@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Navbar, Nav, Container } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
@@ -11,6 +11,7 @@ import Badge from "@material-ui/core/Badge";
 function Header() {
   const userLogin = useSelector((state) => state.userLogin);
   const { user, loading, error } = userLogin;
+  const { cartList } = useSelector((state) => state.cartList);
   const dispatch = useDispatch();
   const handleLogoutAction = () => {
     dispatch(logout());
@@ -23,6 +24,15 @@ function Header() {
       ? JSON.parse(localStorage.getItem("thevickyk.com-cartItems"))
       : null;
   }
+  useEffect(() => {
+    if (user) {
+      cartItems = user.cartItems;
+    } else {
+      cartItems = localStorage.getItem("thevickyk.com-cartItems")
+        ? JSON.parse(localStorage.getItem("thevickyk.com-cartItems"))
+        : null;
+    }
+  }, []);
   return (
     <Navbar bg="dark" variant="dark" collapseOnSelect expand="md" sticky="top">
       <Container fluid>
