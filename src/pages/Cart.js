@@ -6,6 +6,7 @@ import { Button } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import { getcartItemList } from "../actions/cartActions";
 import CartProduct from "../components/CartProduct";
+import { Link } from "react-router-dom";
 
 function Cart(props) {
   const cartList = useSelector((state) => state.cartList);
@@ -24,7 +25,6 @@ function Cart(props) {
       props.history.push("/checkout");
     }
   };
-
   return (
     <div>
       <Row>
@@ -46,6 +46,18 @@ function Cart(props) {
         <div>some error here</div>
       ) : (
         <Row>
+          {!products.data.length && (
+            <Col lg={12} md={12} sm={12} xs={12}>
+              <Typography
+                gutterBottom
+                variant="h6"
+                component="h6"
+                style={{ margin: "10px" }}
+              >
+                Shopping cart empty. <Link to="/">Go for Shopping</Link>
+              </Typography>
+            </Col>
+          )}
           {products.data.map((product, index) => {
             return (
               <Col lg={4} md={6} sm={12} xs={12} key={index}>

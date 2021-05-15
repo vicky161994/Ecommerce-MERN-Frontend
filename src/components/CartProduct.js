@@ -3,12 +3,13 @@ import Card from "@material-ui/core/Card";
 import Typography from "@material-ui/core/Typography";
 import { Button, MenuItem, Select } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { deleteItemFromCart, manageItemQty } from "../actions/cartActions";
 
 function CartProduct(props) {
   const { product, qty } = props;
   const [quantity, setQuantity] = useState(qty);
+  const userLogin = useSelector((state) => state.userLogin);
   let productCategory = product.category
     .split("-")
     .join("")
@@ -36,11 +37,17 @@ function CartProduct(props) {
 
   const handleChange = async (e) => {
     setQuantity(e.target.value);
-    await dispatch(manageItemQty(product._id, e.target.value));
+    if (userLogin.user) {
+      await dispatch(manageItemQty(product._id, e.target.value));
+    } else {
+    }
   };
   const dispatch = useDispatch();
   const ItemDeleteFromCart = async () => {
-    dispatch(deleteItemFromCart(product._id));
+    if (userLogin.user) {
+      dispatch(deleteItemFromCart(product._id));
+    } else {
+    }
   };
 
   return (

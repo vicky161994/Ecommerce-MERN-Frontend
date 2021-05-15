@@ -14,7 +14,6 @@ import { Link } from "react-router-dom";
 import SocialShare from "./dialogs/SocialShare";
 import { useDispatch } from "react-redux";
 import { addToCart, addWishlist } from "../actions/userActions";
-import { noauthAddCartItems } from "../actions/cartActions";
 const useStyles = makeStyles({
   root: {
     margin: 10,
@@ -77,7 +76,6 @@ function Product(props) {
     if (user) {
       dispatch(addToCart(product._id));
     } else {
-      dispatch(noauthAddCartItems(product._id));
     }
   };
 
