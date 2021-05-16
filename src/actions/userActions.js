@@ -1,5 +1,4 @@
 import Axios from "axios";
-import { NOAUTH_ADD_CART_ITEM_LIST_SUCCESS } from "../constants/cartConstants";
 import {
   ADD_WISHLIST_REQUEST,
   USER_LOGIN_FAIL,
@@ -47,11 +46,43 @@ export const login = (email, password) => async (dispatch) => {
       email,
       password,
     });
+    const cartItems = localStorage.getItem("thevickyk.com-cartItems")
+      ? JSON.parse(localStorage.getItem("thevickyk.com-cartItems"))
+      : null;
+    if (cartItems) {
+      if (!data.cartItems.length) {
+        data.cartItems = cartItems;
+      } else {
+        data.cartItems.forEach((element, index1) => {
+          cartItems.forEach((product, index2) => {
+            if (element.productId == product.productId) {
+              data.cartItems[index1].qty = product.qty + element.qty;
+              cartItems.splice(index2, 1);
+            } else {
+              data.cartItems.push(product);
+              cartItems.splice(index2, 1);
+            }
+          });
+        });
+      }
+    }
+    await Axios.post(
+      "/api/users/add-to-cart",
+      {
+        cartItems: data.cartItems,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${data.token}`,
+        },
+      }
+    );
+    localStorage.setItem("thevickyk.com-userInfo", JSON.stringify(data));
+    localStorage.removeItem("thevickyk.com-cartItems");
     dispatch({
       type: USER_LOGIN_SUCCESS,
       payload: data,
     });
-    localStorage.setItem("thevickyk.com-userInfo", JSON.stringify(data));
   } catch (error) {
     dispatch({ type: USER_LOGIN_FAIL, payload: error.response.data.message });
   }

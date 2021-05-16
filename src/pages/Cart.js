@@ -15,6 +15,7 @@ function Cart(props) {
   let totalAmt = 0;
   const { loading, products, error } = cartList;
   const dispatch = useDispatch();
+
   useEffect(() => {
     const { user } = userLogin;
     if (user) {
@@ -36,7 +37,6 @@ function Cart(props) {
       totalAmt = totalAmt + element.cartList.price * element.qty;
     });
   }
-
   return (
     <div>
       <Row>
@@ -101,7 +101,7 @@ function Cart(props) {
               {products && products.data
                 ? products.data.reduce((n, { qty }) => n + qty, 0)
                 : 0}{" "}
-              items) : $ {totalAmt}{" "}
+              items) : $ {totalAmt.toFixed(2)}{" "}
             </Typography>
             <Button
               disabled={totalAmt > 0 ? false : true}
