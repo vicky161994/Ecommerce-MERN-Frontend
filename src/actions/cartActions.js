@@ -9,6 +9,15 @@ import {
   MANAGE_ITEM_QTY_FAIL,
   MANAGE_ITEM_QTY_REQUEST,
   MANAGE_ITEM_QTY_SUCCESS,
+  NO_AUTH_ADD_CART_FAIL,
+  NO_AUTH_ADD_CART_REQUEST,
+  NO_AUTH_ADD_CART_SUCCESS,
+  NO_AUTH_DELETE_CART_FAIL,
+  NO_AUTH_DELETE_CART_REQUEST,
+  NO_AUTH_DELETE_CART_SUCCESS,
+  NO_AUTH_QTY_CHANGED_FAIL,
+  NO_AUTH_QTY_CHANGED_REQUEST,
+  NO_AUTH_QTY_CHANGED_SUCCESS,
 } from "../constants/cartConstants";
 
 export const getcartItemList = () => async (dispatch, getState) => {
@@ -115,6 +124,134 @@ export const manageItemQty = (productId, qty) => async (dispatch, getState) => {
     console.log(error);
     dispatch({
       type: MANAGE_ITEM_QTY_FAIL,
+      error: error.response.data.message,
+    });
+  }
+};
+
+export const noAuthAddToCart = (productId) => async (dispatch, getState) => {
+  dispatch({ type: NO_AUTH_ADD_CART_REQUEST });
+  try {
+    let reducerData;
+    const cartItems = localStorage.getItem("thevickyk.com-cartItems")
+      ? JSON.parse(localStorage.getItem("thevickyk.com-cartItems"))
+      : null;
+    if (cartItems) {
+      if (cartItems.some((cart) => cart.productId === productId)) {
+        const index = cartItems.findIndex(
+          (cart) => cart.productId === productId
+        );
+        cartItems[index].qty = cartItems[index].qty + 1;
+        reducerData = cartItems;
+      } else {
+        let data = { productId, qty: 1 };
+        cartItems.push(data);
+        reducerData = cartItems;
+      }
+      localStorage.setItem(
+        "thevickyk.com-cartItems",
+        JSON.stringify(cartItems)
+      );
+    } else {
+      let cartItems = [];
+      let data = { productId, qty: 1 };
+      cartItems.push(data);
+      reducerData = cartItems;
+      localStorage.setItem(
+        "thevickyk.com-cartItems",
+        JSON.stringify(cartItems)
+      );
+    }
+    dispatch({ type: NO_AUTH_ADD_CART_SUCCESS, payload: reducerData });
+  } catch (error) {
+    console.log(error);
+    dispatch({
+      type: NO_AUTH_ADD_CART_FAIL,
+      error: error,
+    });
+  }
+};
+
+export const noAuthgetcartItemList = () => async (dispatch, getState) => {
+  dispatch({ type: GET_CART_ITEM_LIST_REQUEST });
+  try {
+    const cartItems = localStorage.getItem("thevickyk.com-cartItems")
+      ? JSON.parse(localStorage.getItem("thevickyk.com-cartItems"))
+      : null;
+    if (cartItems) {
+      const { data } = await Axios.post(
+        "/api/carts/unauth-get-cart-item-list",
+        {
+          cartItems,
+        }
+      );
+      dispatch({
+        type: GET_CART_ITEM_LIST_SUCCESS,
+        payload: data,
+      });
+    } else {
+      dispatch({
+        type: GET_CART_ITEM_LIST_SUCCESS,
+        payload: { data: [] },
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    dispatch({
+      type: GET_CART_ITEM_LIST_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+export const noAuthdeleteItemFromCart =
+  (productId) => async (dispatch, getState) => {
+    dispatch({ type: NO_AUTH_DELETE_CART_REQUEST });
+    try {
+      let reducerData;
+      const cartItems = localStorage.getItem("thevickyk.com-cartItems")
+        ? JSON.parse(localStorage.getItem("thevickyk.com-cartItems"))
+        : null;
+      if (cartItems.some((cart) => cart.productId === productId)) {
+        const index = cartItems.findIndex(
+          (cart) => cart.productId === productId
+        );
+        cartItems.splice(index, 1);
+        reducerData = cartItems;
+      }
+      localStorage.setItem(
+        "thevickyk.com-cartItems",
+        JSON.stringify(cartItems)
+      );
+      dispatch({ type: NO_AUTH_DELETE_CART_SUCCESS, payload: reducerData });
+    } catch (error) {
+      console.log(error);
+      dispatch({
+        type: NO_AUTH_DELETE_CART_FAIL,
+        error: error.message,
+      });
+    }
+  };
+
+export const noAuthManageItemQty = (productId, qty) => async (dispatch) => {
+  dispatch({ type: NO_AUTH_QTY_CHANGED_REQUEST });
+  try {
+    const cartItems = localStorage.getItem("thevickyk.com-cartItems")
+      ? JSON.parse(localStorage.getItem("thevickyk.com-cartItems"))
+      : null;
+    if (cartItems.some((cart) => cart.productId === productId)) {
+      const index = cartItems.findIndex((cart) => cart.productId === productId);
+      cartItems[index].qty = qty;
+      localStorage.setItem(
+        "thevickyk.com-cartItems",
+        JSON.stringify(cartItems)
+      );
+      dispatch({ type: NO_AUTH_QTY_CHANGED_SUCCESS, payload: cartItems });
+    }
+  } catch (error) {
+    console.log(error);
+    dispatch({
+      type: NO_AUTH_QTY_CHANGED_FAIL,
       error: error.response.data.message,
     });
   }

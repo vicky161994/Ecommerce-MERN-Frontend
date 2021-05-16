@@ -4,7 +4,12 @@ import Typography from "@material-ui/core/Typography";
 import { Button, MenuItem, Select } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteItemFromCart, manageItemQty } from "../actions/cartActions";
+import {
+  deleteItemFromCart,
+  manageItemQty,
+  noAuthdeleteItemFromCart,
+  noAuthManageItemQty,
+} from "../actions/cartActions";
 
 function CartProduct(props) {
   const { product, qty } = props;
@@ -40,6 +45,7 @@ function CartProduct(props) {
     if (userLogin.user) {
       await dispatch(manageItemQty(product._id, e.target.value));
     } else {
+      dispatch(noAuthManageItemQty(product._id, e.target.value));
     }
   };
   const dispatch = useDispatch();
@@ -47,6 +53,7 @@ function CartProduct(props) {
     if (userLogin.user) {
       dispatch(deleteItemFromCart(product._id));
     } else {
+      dispatch(noAuthdeleteItemFromCart(product._id));
     }
   };
 

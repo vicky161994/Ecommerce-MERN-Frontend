@@ -10,8 +10,9 @@ import Badge from "@material-ui/core/Badge";
 
 function Header() {
   const userLogin = useSelector((state) => state.userLogin);
-  const { user, loading, error } = userLogin;
+  const { user } = userLogin;
   const { cartList } = useSelector((state) => state.cartList);
+  const noAuthCart = useSelector((state) => state.noAuthCart);
   const dispatch = useDispatch();
   const handleLogoutAction = () => {
     dispatch(logout());
@@ -32,7 +33,7 @@ function Header() {
         ? JSON.parse(localStorage.getItem("thevickyk.com-cartItems"))
         : null;
     }
-  }, []);
+  }, [cartList, noAuthCart]);
   return (
     <Navbar bg="dark" variant="dark" collapseOnSelect expand="md" sticky="top">
       <Container fluid>
