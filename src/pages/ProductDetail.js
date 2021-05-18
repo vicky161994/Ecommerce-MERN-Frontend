@@ -13,6 +13,7 @@ import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import SocialShare from "../components/dialogs/SocialShare";
 import { addToCart, addWishlist } from "../actions/userActions";
+import { noAuthAddToCart } from "../actions/cartActions";
 const useStyles = makeStyles({
   root: {
     marginTop: 49,
@@ -33,7 +34,7 @@ function ProductDetail(props) {
   );
   const userLogin = useSelector((state) => state.userLogin);
   let { user } = userLogin;
-  const [wishlist, setWishlist] = useState(user.wishlist);
+  const [wishlist, setWishlist] = useState(user ? user.wishlist : null);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(productDetail(productID));
@@ -55,7 +56,11 @@ function ProductDetail(props) {
     setWishlist(user.wishlist);
   };
   const handleCart = () => {
-    dispatch(addToCart(product._id));
+    if (user) {
+      dispatch(addToCart(product._id));
+    } else {
+      dispatch(noAuthAddToCart(product._id));
+    }
   };
   return (
     <Container>

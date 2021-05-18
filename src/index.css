@@ -72,6 +72,12 @@ li {
   display: inline-block;
 }
 
+input[type="radio"] {
+  border: 0px;
+  width: 4%;
+  height: 2em;
+}
+
 /* COMMON END */
 
 /* FOOTER START */
@@ -169,7 +175,10 @@ li {
   width: 100%;
 }
 
-/* .cartpagetitle {
-  width: 20%;
-} */
 /* CART PAGE END */
+
+/* CHECKOUT PAGE START */
+.checkout-page-row {
+  margin: 1% !important;
+}
+/* CHECKOUT PAGE END */

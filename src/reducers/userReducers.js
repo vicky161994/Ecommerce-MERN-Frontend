@@ -3,6 +3,7 @@ import {
   MANAGE_ITEM_QTY_SUCCESS,
 } from "../constants/cartConstants";
 import {
+  ADD_ADDRESS_SUCCESS,
   ADD_CART_SUCCESS,
   ADD_WISHLIST_FAIL,
   ADD_WISHLIST_REQUEST,
@@ -42,6 +43,8 @@ export const userLoginReducer = (state = {}, action) => {
     case DELETE_ITEM_FROM_CART_SUCCESS:
       return { loading: false, user: action.payload };
     case MANAGE_ITEM_QTY_SUCCESS:
+      return { loading: false, user: action.payload };
+    case ADD_ADDRESS_SUCCESS:
       return { loading: false, user: action.payload };
     case USER_LOGOUT:
       return {};

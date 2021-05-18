@@ -13,6 +13,9 @@ import {
   ADD_CART_REQUEST,
   ADD_CART_FAIL,
   ADD_CART_SUCCESS,
+  ADD_ADDRESS_REQUEST,
+  ADD_ADDRESS_FAIL,
+  ADD_ADDRESS_SUCCESS,
 } from "../constants/userConstants";
 
 export const register = (name, email, password, number) => async (dispatch) => {
@@ -179,16 +182,9 @@ export const addToCart = (productId) => async (dispatch, getState) => {
             (cart) => cart.productId === productId
           );
           cartItems[index].qty = cartItems[index].qty + 1;
-          // if (products.data.some((cart) => cart.cartList._id === productId)) {
-          //   const index = products.data.findIndex(
-          //     (cart) => cart.cartList._id === productId
-          //   );
-          //   products.data[index].qty = products.data[index].qty + 1;
-          // }
         } else {
           let data = { productId, qty: 1 };
           cartItems.push(data);
-          // products.data.push(data);
         }
         localStorage.setItem(
           "thevickyk.com-cartItems",
@@ -202,12 +198,56 @@ export const addToCart = (productId) => async (dispatch, getState) => {
           "thevickyk.com-cartItems",
           JSON.stringify(cartItems)
         );
-        // products.data.push(data);
       }
-      // dispatch({ type: NOAUTH_ADD_CART_ITEM_LIST_SUCCESS, payload: products });
     }
   } catch (error) {
     console.log(error);
     dispatch({ type: ADD_CART_FAIL, error: error.response.data.message });
   }
 };
+
+export const addnewAddress =
+  (fullName, number, pinCode, state, city, houseNumber, roadName) =>
+  async (dispatch, getState) => {
+    dispatch({ type: ADD_ADDRESS_REQUEST });
+    try {
+      console.log({
+        fullName,
+        number,
+        pinCode,
+        state,
+        city,
+        houseNumber,
+        roadName,
+      });
+      const {
+        userLogin: { user },
+      } = getState();
+      const { data } = await Axios.post(
+        "/api/users/add-address",
+        {
+          fullName,
+          number,
+          pinCode,
+          state,
+          city,
+          houseNumber,
+          roadName,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+      user.address = data.address;
+      localStorage.setItem("thevickyk.com-userInfo", JSON.stringify(user));
+      dispatch({ type: ADD_ADDRESS_SUCCESS, payload: user });
+    } catch (error) {
+      console.log(error);
+      dispatch({
+        type: ADD_ADDRESS_FAIL,
+        payload: error.response.data.message,
+      });
+    }
+  };
