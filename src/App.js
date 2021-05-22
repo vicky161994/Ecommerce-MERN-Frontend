@@ -9,6 +9,8 @@ import Account from "./pages/Account";
 import Homepage from "./pages/Homepage";
 import ProductDetail from "./pages/ProductDetail";
 import Checkout from "./pages/Checkout";
+import Payment from "./pages/Payment";
+import OrderDetail from "./pages/OrderDetail";
 
 function App() {
   return (
@@ -16,10 +18,12 @@ function App() {
       <Header />
       <main>
         <Route path="/login" component={Login} exact />
-        <Route path="/cart" component={Cart} />
+        <Route path="/cart" component={Cart} exact />
         <Route path="/signup" component={Signup} exact />
         <Route path="/account" component={Account} exact />
         <Route path="/checkout" component={Checkout} exact />
+        <Route path="/payment" component={Payment} exact />
+        <Route path="/order-detail" component={OrderDetail} exact />
         <Route path="/" component={Homepage} exact />
         <Route
           path="/product/:category/:title/:id"

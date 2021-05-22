@@ -182,3 +182,11 @@ input[type="radio"] {
   margin: 1% !important;
 }
 /* CHECKOUT PAGE END */
+
+/* PAYMENT PAGE START*/
+
+.payment-item-card {
+  padding: 0 !important;
+}
+
+/* PAYMENT PAGE END*/

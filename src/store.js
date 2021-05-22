@@ -9,6 +9,7 @@ import {
   noAuthAddToCartReducer,
 } from "./reducers/cartReducers";
 import { userLoginReducer, userRegisterReducer } from "./reducers/userReducers";
+import { addOrderItemReducer } from "./reducers/orderReducers";
 const initialState = {
   userLogin: {
     user: localStorage.getItem("thevickyk.com-userInfo")
@@ -28,6 +29,7 @@ const reducer = combineReducers({
   userLogin: userLoginReducer,
   cartList: cartListReducer,
   noAuthCart: noAuthAddToCartReducer,
+  orderDetails: addOrderItemReducer,
 });
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(

@@ -8,6 +8,7 @@ import {
   NO_AUTH_DELETE_CART_SUCCESS,
   NO_AUTH_QTY_CHANGED_SUCCESS,
 } from "../constants/cartConstants";
+import { CLEAR_CART_SUCCESS } from "../constants/orderConstants";
 
 export const cartListReducer = (
   state = { loading: true, products: [] },
@@ -18,6 +19,8 @@ export const cartListReducer = (
       return { loading: true };
     case GET_CART_ITEM_LIST_SUCCESS:
       return { loading: false, products: action.payload };
+    case CLEAR_CART_SUCCESS:
+      return { ...state, products: action.payload };
     case GET_CART_ITEM_LIST_FAIL:
       return { loading: false, error: action.payload };
     default:

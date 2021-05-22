@@ -15,6 +15,7 @@ import Slide from "@material-ui/core/Slide";
 import TextField from "@material-ui/core/TextField";
 import { addnewAddress } from "../actions/userActions";
 import Address from "../components/Address";
+import { AddAddressInOrderDetails } from "../actions/orderActions";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -28,8 +29,11 @@ const useStyles = makeStyles((theme) => ({
 
 function Checkout(props) {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
   const { user } = userLogin;
+  const cartList = useSelector((state) => state.cartList);
+  const { products } = cartList;
   const [open, setOpen] = useState(false);
   const [fullName, setFullName] = useState("");
   const [number, setNumber] = useState("");
@@ -49,6 +53,12 @@ function Checkout(props) {
 
   if (!user) {
     props.history.push("/login");
+    return false;
+  }
+
+  if (!products.data) {
+    props.history.push("/cart");
+    return false;
   }
 
   const openModalforNewAddress = async (e) => {
@@ -129,8 +139,6 @@ function Checkout(props) {
     }
   };
 
-  const dispatch = useDispatch();
-
   const handleSubmit = async () => {
     if (fullName === "") {
       setFullNameError(true);
@@ -186,7 +194,6 @@ function Checkout(props) {
   };
 
   const getDeliverAddress = (data) => {
-    console.log(data);
     setAddress(data);
   };
 
@@ -195,7 +202,8 @@ function Checkout(props) {
       alert("Please select address");
       return false;
     } else {
-      alert("all ok");
+      await dispatch(AddAddressInOrderDetails(address));
+      props.history.push("payment");
     }
   };
 

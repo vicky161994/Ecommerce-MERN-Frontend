@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getcartItemList, noAuthgetcartItemList } from "../actions/cartActions";
 import CartProduct from "../components/CartProduct";
 import { Link } from "react-router-dom";
+import { AddItemInOrderDetails } from "../actions/orderActions";
 
 function Cart(props) {
   const cartList = useSelector((state) => state.cartList);
@@ -29,6 +30,7 @@ function Cart(props) {
     if (!userLogin.user) {
       props.history.push("/login?redirect=checkout");
     } else {
+      await dispatch(AddItemInOrderDetails());
       props.history.push("/checkout");
     }
   };
@@ -37,6 +39,7 @@ function Cart(props) {
       totalAmt = totalAmt + element.cartList.price * element.qty;
     });
   }
+
   return (
     <div>
       <Row>
