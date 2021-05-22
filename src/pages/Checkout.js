@@ -359,7 +359,7 @@ function Checkout(props) {
         })}
       </Row>
       <Row className="justify-content-md-center mt-5 mb-5">
-        <Col lg={3} md={12} sm={12} xs={12}>
+        <Col lg={3} md={12} sm={12} xs={12} className="payment-btn">
           <Button
             variant="contained"
             color="primary"

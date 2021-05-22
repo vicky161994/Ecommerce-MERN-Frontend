@@ -9,32 +9,33 @@ import { Link } from "react-router-dom";
 
 function Footer(props) {
   return (
-    <Row noGutters={true} className="gx-0 footer">
-      <Col lg={12}>
-        <div>
-          <p className="text-center">
-            &copy; {new Date().getFullYear()} All Right Reserved
-          </p>
-        </div>
-        <div className="text-center footer-social-icon">
-          <Link to="#">
-            <LinkedInIcon />
-          </Link>
-          <Link to="#">
-            <GitHubIcon />
-          </Link>
-          <Link to="#">
-            <TwitterIcon />
-          </Link>
-          <Link to="#">
-            <InstagramIcon />
-          </Link>
-          <Link to="#">
-            <FacebookIcon />
-          </Link>
-        </div>
-      </Col>
-    </Row>
+    <footer noGutters={true} className="gx-0 footer">
+      <div>
+        <p className="text-center" style={{ lineHeight: "2.5em" }}>
+          &copy; {new Date().getFullYear()} All Right Reserved
+        </p>
+      </div>
+      <div
+        className="text-center footer-social-icon"
+        style={{ lineHeight: "2.5em" }}
+      >
+        <Link to="#">
+          <LinkedInIcon />
+        </Link>
+        <Link to="#">
+          <GitHubIcon />
+        </Link>
+        <Link to="#">
+          <TwitterIcon />
+        </Link>
+        <Link to="#">
+          <InstagramIcon />
+        </Link>
+        <Link to="#">
+          <FacebookIcon />
+        </Link>
+      </div>
+    </footer>
   );
 }
 

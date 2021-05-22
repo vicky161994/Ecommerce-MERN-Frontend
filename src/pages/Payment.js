@@ -141,7 +141,7 @@ function Payment(props) {
           </ul>
         </Col>
         <Col lg={3} md={12} sm={12} xs={12}>
-          <Card className="mt-4 p-3">
+          <Card className="mt-4 mb-4 p-3">
             <Typography gutterBottom variant="h6" component="h6">
               Order summary
             </Typography>
