@@ -6,6 +6,9 @@ import {
   PAYMENT_CHARGE_REQUEST,
   PAYMENT_CHARGE_FAIL,
   CLEAR_ORDER_SUCCESS,
+  GET_ORDER_LIST_REQUEST,
+  GET_ORDER_LIST_SUCCESS,
+  GET_ORDER_LIST_FAIL,
 } from "../constants/orderConstants";
 
 export const addOrderItemReducer = (
@@ -36,6 +39,22 @@ export const chargePaymentReducer = (
     case PAYMENT_CHARGE_REQUEST:
       return { loading: true };
     case PAYMENT_CHARGE_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const getOrderListReducer = (
+  state = { loading: true, orderList: [] },
+  action
+) => {
+  switch (action.type) {
+    case GET_ORDER_LIST_REQUEST:
+      return { loading: true };
+    case GET_ORDER_LIST_SUCCESS:
+      return { loading: false, orderList: action.payload };
+    case GET_ORDER_LIST_FAIL:
       return { loading: false, error: action.payload };
     default:
       return state;

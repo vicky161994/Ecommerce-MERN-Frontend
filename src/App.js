@@ -23,7 +23,7 @@ function App() {
         <Route path="/account" component={Account} exact />
         <Route path="/checkout" component={Checkout} exact />
         <Route path="/payment" component={Payment} exact />
-        <Route path="/order-detail" component={OrderDetail} exact />
+        <Route path="/order-history" component={OrderDetail} exact />
         <Route path="/" component={Homepage} exact />
         <Route
           path="/product/:category/:title/:id"

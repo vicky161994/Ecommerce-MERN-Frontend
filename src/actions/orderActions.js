@@ -12,6 +12,9 @@ import {
   CLEAR_ORDER_FAIL,
   CLEAR_CART_SUCCESS,
   CLEAR_USER_CARTITEM_SUCCESS,
+  GET_ORDER_LIST_REQUEST,
+  GET_ORDER_LIST_SUCCESS,
+  GET_ORDER_LIST_FAIL,
 } from "../constants/orderConstants";
 
 export const AddItemInOrderDetails = () => async (dispatch, getState) => {
@@ -61,7 +64,8 @@ export const AddAddressInOrderDetails =
   };
 
 export const chargePayment =
-  (token, items, totalPrice, address) => async (dispatch, getState) => {
+  (token, items, totalAmt, shippingPrice, taxPrice, totalPrice, address) =>
+  async (dispatch, getState) => {
     dispatch({ type: PAYMENT_CHARGE_REQUEST });
     try {
       const {
@@ -69,7 +73,15 @@ export const chargePayment =
       } = getState();
       const { data } = await Axios.post(
         "/api/orders/stripe/payment/charge",
-        { token, items, totalPrice, address },
+        {
+          token,
+          items,
+          totalAmt,
+          shippingPrice,
+          taxPrice,
+          totalPrice,
+          address,
+        },
         {
           headers: {
             Authorization: `Bearer ${user.token}`,
@@ -110,13 +122,47 @@ export const clearOrderDetail = () => (dispatch, getstate) => {
     } = getstate();
     user.cartItems = [];
     products["data"] = [];
-    orderDetails.data.items = {};
-    orderDetails.data.address = {};
+    if (orderDetails.data) {
+      orderDetails.data.items = {};
+      orderDetails.data.address = {};
+    }
     dispatch({ type: CLEAR_ORDER_SUCCESS, payload: orderDetails });
     dispatch({ type: CLEAR_CART_SUCCESS, payload: products });
     dispatch({ type: CLEAR_USER_CARTITEM_SUCCESS, payload: user });
   } catch (error) {
     console.log(error);
     dispatch({ type: CLEAR_ORDER_FAIL, payload: error });
+  }
+};
+
+export const getOrderList = (page) => async (dispatch, getState) => {
+  dispatch({
+    type: GET_ORDER_LIST_REQUEST,
+  });
+  try {
+    const {
+      userLogin: { user },
+    } = getState();
+    const { data } = await Axios.post(
+      "/api/orders/get-order-list",
+      {
+        limit: 9,
+        page: page,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      }
+    );
+    dispatch({
+      type: GET_ORDER_LIST_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_ORDER_LIST_FAIL,
+      payload: error.response.data.message,
+    });
   }
 };

@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 
 function Footer(props) {
   return (
-    <footer noGutters={true} className="gx-0 footer">
+    <footer className="gx-0 footer">
       <div>
         <p className="text-center" style={{ lineHeight: "2.5em" }}>
           &copy; {new Date().getFullYear()} All Right Reserved

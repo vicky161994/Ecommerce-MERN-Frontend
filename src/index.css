@@ -140,6 +140,9 @@ input[type="radio"] {
   .payment-btn {
     text-align: center;
   }
+  .disp_mob_hide {
+    display: none;
+  }
 }
 
 @media (min-width: 991px) {

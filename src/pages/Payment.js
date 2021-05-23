@@ -40,7 +40,17 @@ function Payment(props) {
   const totalPrice = totalAmt + shippingPrice + taxPrice;
 
   const makePayment = async (token) => {
-    await dispatch(chargePayment(token, items, totalPrice, address));
+    await dispatch(
+      chargePayment(
+        token,
+        items,
+        totalAmt,
+        shippingPrice,
+        taxPrice,
+        totalPrice,
+        address
+      )
+    );
     props.history.push("/order-detail");
   };
   return (
