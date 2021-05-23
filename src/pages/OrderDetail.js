@@ -45,7 +45,6 @@ function OrderDetail(props) {
     setPage(pageno);
   };
 
-  console.log(orderList);
   return (
     <Container>
       <Typography className="mt-4" variant="h5" component="h5">

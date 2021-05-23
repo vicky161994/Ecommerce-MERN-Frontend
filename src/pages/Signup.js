@@ -142,10 +142,17 @@ function Signup() {
     ) {
       return false;
     }
-    dispatch(register(name, email, password, number));
+    await dispatch(register(name, email, password, number));
   };
   useEffect(() => {
     if (user) {
+      if (user.status === "201") {
+        setEmail("");
+        setNumber("");
+        setPassword("");
+        setName("");
+        setConfirmPassword("");
+      }
     }
   }, [error, loading, user]);
 
@@ -177,6 +184,7 @@ function Signup() {
                 className={classes.margin}
                 id="input-with-icon-textfield"
                 label="Full Name"
+                value={name}
                 onChange={handleName}
                 autoComplete="off"
                 InputProps={{
@@ -197,6 +205,7 @@ function Signup() {
                 className={classes.margin}
                 id="input-with-icon-textfield"
                 label="Email"
+                value={email}
                 onChange={handleEmail}
                 autoComplete="off"
                 InputProps={{
@@ -217,6 +226,7 @@ function Signup() {
                 className={classes.margin}
                 id="input-with-icon-textfield"
                 label="Mobile Number"
+                value={number}
                 onChange={handleMobileNumber}
                 autoComplete="off"
                 InputProps={{
@@ -238,6 +248,7 @@ function Signup() {
                 id="input-with-icon-textfield"
                 label="Password"
                 type="password"
+                value={password}
                 onChange={handlePassword}
                 autoComplete="off"
                 InputProps={{
@@ -259,6 +270,7 @@ function Signup() {
                 id="input-with-icon-textfield"
                 label="Confirm Password"
                 type="password"
+                value={confirmPassword}
                 onChange={handleConfirmPassword}
                 autoComplete="off"
                 InputProps={{

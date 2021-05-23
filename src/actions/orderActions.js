@@ -88,7 +88,7 @@ export const chargePayment =
           },
         }
       );
-      if (data) {
+      if (data.status === "succeeded") {
         let temp = localStorage.getItem("thevickyk.com-userInfo")
           ? JSON.parse(localStorage.getItem("thevickyk.com-userInfo"))
           : null;

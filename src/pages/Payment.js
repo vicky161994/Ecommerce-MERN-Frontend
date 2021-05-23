@@ -51,7 +51,7 @@ function Payment(props) {
         address
       )
     );
-    props.history.push("/order-detail");
+    props.history.push("/order-history");
   };
   return (
     <Container>

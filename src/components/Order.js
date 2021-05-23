@@ -123,7 +123,7 @@ function Order(props) {
                     gutterBottom
                     variant="h6"
                     component="h6"
-                    style={{ color: "black" }}
+                    style={{ color: "black", paddingLeft: "5px" }}
                   >
                     {product.title}
                   </Typography>

@@ -179,7 +179,7 @@ function Checkout(props) {
     ) {
       return false;
     } else {
-      dispatch(
+      await dispatch(
         addnewAddress(
           fullName,
           number,
@@ -190,6 +190,7 @@ function Checkout(props) {
           roadName
         )
       );
+      setOpen(false);
     }
   };
 
@@ -220,7 +221,7 @@ function Checkout(props) {
         aria-describedby="alert-dialog-slide-description"
       >
         <DialogTitle id="alert-dialog-slide-title" style={{ width: "100%" }}>
-          {"Add new address for deliver"}
+          {"Add new shipping Address"}
         </DialogTitle>
         <DialogContent>
           <div>

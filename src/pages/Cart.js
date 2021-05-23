@@ -84,7 +84,7 @@ function Cart(props) {
       )}
 
       <Row className="justify-content-md-center mt-5">
-        <Col lg={4} md={12} sm={12} xs={12} style={{ margin: "10px" }}>
+        <Col lg={4} md={12} sm={12} xs={12}>
           <Card
             style={{
               padding: "20px",
