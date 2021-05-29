@@ -31,7 +31,7 @@ function Login(props) {
   const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
   const classes = useStyles();
   const userLogin = useSelector((state) => state.userLogin);
-  const { user, loading, error } = userLogin;
+  const { user, error } = userLogin;
   const dispatch = useDispatch();
   const handleEmail = (e) => {
     if (e.target.value === "") {
@@ -55,7 +55,8 @@ function Login(props) {
   };
 
   const handleLogin = () => {
-    let emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    let emailRegex =
+      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     if (email === "") {
       setEmailError(true);
       setEmailErrorMessage("Email is required");
@@ -77,7 +78,7 @@ function Login(props) {
     if (user) {
       props.history.push("/");
     }
-  }, [user]);
+  }, [props.history, user]);
   return (
     <Row>
       <Col lg={3}></Col>

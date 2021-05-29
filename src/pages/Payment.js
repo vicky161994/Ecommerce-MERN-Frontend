@@ -12,7 +12,7 @@ function Payment(props) {
   const userLogin = useSelector((state) => state.userLogin);
   const orderDetails = useSelector((state) => state.orderDetails);
   const dispatch = useDispatch();
-  const { user, error, loading } = userLogin;
+  const { user } = userLogin;
   const cartList = useSelector((state) => state.cartList);
   const { products } = cartList;
 

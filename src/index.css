@@ -122,6 +122,20 @@ input[type="radio"] {
 }
 /* LOGIN END */
 
+/* HOMEPAGE START */
+
+.search-filter-box div {
+  height: 45px;
+}
+.search-filter-box label {
+  transform: translate(14px, 13px) scale(1);
+}
+.search-filter-box .MuiInputLabel-outlined .MuiInputLabel-shrink {
+  transform: translate(14px, 0px) scale(0.75);
+}
+
+/* HOMEPAGE END */
+
 @media (max-width: 991px) {
   .loginCard {
     margin: 5rem 0rem !important;
@@ -145,6 +159,12 @@ input[type="radio"] {
   }
   input[type="radio"] {
     width: 10%;
+  }
+  .order-history-link {
+    float: left !important;
+  }
+  .homepage-filter {
+    width: 100% !important;
   }
 }
 
@@ -201,3 +221,19 @@ input[type="radio"] {
 }
 
 /* PAYMENT PAGE END*/
+
+/* ACCOUNT PAGE START */
+
+.edit-icon {
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.order-history-link {
+  color: #000000;
+  font-size: 18px;
+  float: right;
+  margin-top: 10px;
+}
+
+/* ACCOUNT PAGE END */

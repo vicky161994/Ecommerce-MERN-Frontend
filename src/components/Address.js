@@ -1,16 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import { useSelector } from "react-redux";
 import Typography from "@material-ui/core/Typography";
 
 function Address(props) {
-  const [deliverAddress, setDeliverAddress] = useState("");
   const userLogin = useSelector((state) => state.userLogin);
   const { user } = userLogin;
   const { address, index } = props;
   const handleAddress = async (e) => {
-    setDeliverAddress(user.address[e.target.value]);
     props.getDeliverAddress(user.address[e.target.value]);
   };
   return (

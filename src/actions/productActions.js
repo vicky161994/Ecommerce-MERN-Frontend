@@ -7,7 +7,7 @@ import {
   PRODUCT_DETAIL_SUCCESS,
   PRODUCT_DETAIL_FAIL,
 } from "../constants/productConstants";
-export const productlist = (page) => async (dispatch) => {
+export const productlist = (page, filterKeyword) => async (dispatch) => {
   dispatch({
     type: PRODUCT_LIST_REQUEST,
   });
@@ -15,6 +15,7 @@ export const productlist = (page) => async (dispatch) => {
     const { data } = await Axios.post("/api/products/get-product-list", {
       limit: 12,
       page: page,
+      filterKeyword,
     });
     dispatch({
       type: PRODUCT_LIST_SUCCESS,

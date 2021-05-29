@@ -9,6 +9,15 @@ import {
   ADD_WISHLIST_FAIL,
   ADD_WISHLIST_REQUEST,
   ADD_WISHLIST_SUCCESS,
+  CHANGE_PROFILE_FAIL,
+  CHANGE_PROFILE_REQUEST,
+  CHANGE_PROFILE_SUCCESS,
+  DELETE_ADDRESS_FAIL,
+  DELETE_ADDRESS_REQUEST,
+  DELETE_ADDRESS_SUCCESS,
+  EDIT_ADDRESS_FAIL,
+  EDIT_ADDRESS_REQUEST,
+  EDIT_ADDRESS_SUCCESS,
   USER_LOGIN_FAIL,
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
@@ -49,6 +58,12 @@ export const userLoginReducer = (state = {}, action) => {
       return { loading: false, user: action.payload };
     case ADD_ADDRESS_SUCCESS:
       return { loading: false, user: action.payload };
+    case DELETE_ADDRESS_SUCCESS:
+      return { loading: false, user: action.payload };
+    case EDIT_ADDRESS_SUCCESS:
+      return { loading: false, user: action.payload };
+    case CHANGE_PROFILE_SUCCESS:
+      return { loading: false, user: action.payload };
     case USER_LOGOUT:
       return {};
     default:
@@ -63,6 +78,39 @@ export const addWishlistReducer = (state = {}, action) => {
     case ADD_WISHLIST_SUCCESS:
       return { loading: false, wishlist: action.payload };
     case ADD_WISHLIST_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const deleteAddressReducer = (state = {}, action) => {
+  switch (action.type) {
+    case DELETE_ADDRESS_REQUEST:
+      return { loading: true };
+    case DELETE_ADDRESS_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const editAddressReducer = (state = {}, action) => {
+  switch (action.type) {
+    case EDIT_ADDRESS_REQUEST:
+      return { loading: true };
+    case EDIT_ADDRESS_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const changeProfileReducer = (state = {}, action) => {
+  switch (action.type) {
+    case CHANGE_PROFILE_REQUEST:
+      return { loading: true };
+    case CHANGE_PROFILE_FAIL:
       return { loading: false, error: action.payload };
     default:
       return state;

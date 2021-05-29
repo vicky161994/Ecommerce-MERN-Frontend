@@ -39,7 +39,7 @@ function OrderDetail(props) {
       dispatch(clearOrderDetail());
       dispatch(getOrderList(page));
     }
-  }, [dispatch, user, page]);
+  }, [dispatch, user, page, props.history]);
 
   const paginateData = (pageno) => {
     setPage(pageno);
