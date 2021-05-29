@@ -56,7 +56,9 @@ function Cart(props) {
       </Row>
 
       {loading ? (
-        <div>Loading...</div>
+        <div>
+          <i className="fa fa-spinner fa-spin"></i>Loading...
+        </div>
       ) : error ? (
         <div>some error here</div>
       ) : (

@@ -66,7 +66,10 @@ function ProductDetail(props) {
     <Container>
       {openDialog && <SocialShare handleDialog={handleShareButton} />}
       {loading ? (
-        <div>Product detail fetching...</div>
+        <div>
+          {" "}
+          <i className="fa fa-spinner fa-spin"></i>Product detail fetching...
+        </div>
       ) : error ? (
         <div>some error here</div>
       ) : (

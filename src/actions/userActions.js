@@ -350,3 +350,100 @@ export const changeNameNumber =
       });
     }
   };
+
+export const loginWithFacebook = (accessToken, userID) => async (dispatch) => {
+  dispatch({ type: USER_LOGIN_REQUEST, payload: { accessToken, userID } });
+  try {
+    const { data } = await Axios.post("/api/users/login-with-facebook", {
+      accessToken,
+      userID,
+    });
+    const cartItems = localStorage.getItem("thevickyk.com-cartItems")
+      ? JSON.parse(localStorage.getItem("thevickyk.com-cartItems"))
+      : null;
+    if (cartItems) {
+      if (!data.cartItems.length) {
+        data.cartItems = cartItems;
+      } else {
+        data.cartItems.forEach((element, index1) => {
+          cartItems.forEach((product, index2) => {
+            if (element.productId === product.productId) {
+              data.cartItems[index1].qty = product.qty + element.qty;
+              cartItems.splice(index2, 1);
+            } else {
+              data.cartItems.push(product);
+              cartItems.splice(index2, 1);
+            }
+          });
+        });
+      }
+    }
+    await Axios.post(
+      "/api/users/add-to-cart",
+      {
+        cartItems: data.cartItems,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${data.token}`,
+        },
+      }
+    );
+    localStorage.setItem("thevickyk.com-userInfo", JSON.stringify(data));
+    localStorage.removeItem("thevickyk.com-cartItems");
+    dispatch({
+      type: USER_LOGIN_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({ type: USER_LOGIN_FAIL, payload: error.response.data.message });
+  }
+};
+
+export const loginWithGoogle = (tokenId) => async (dispatch) => {
+  dispatch({ type: USER_LOGIN_REQUEST, payload: { tokenId } });
+  try {
+    const { data } = await Axios.post("/api/users/login-with-google", {
+      tokenId,
+    });
+    const cartItems = localStorage.getItem("thevickyk.com-cartItems")
+      ? JSON.parse(localStorage.getItem("thevickyk.com-cartItems"))
+      : null;
+    if (cartItems) {
+      if (!data.cartItems.length) {
+        data.cartItems = cartItems;
+      } else {
+        data.cartItems.forEach((element, index1) => {
+          cartItems.forEach((product, index2) => {
+            if (element.productId === product.productId) {
+              data.cartItems[index1].qty = product.qty + element.qty;
+              cartItems.splice(index2, 1);
+            } else {
+              data.cartItems.push(product);
+              cartItems.splice(index2, 1);
+            }
+          });
+        });
+      }
+    }
+    await Axios.post(
+      "/api/users/add-to-cart",
+      {
+        cartItems: data.cartItems,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${data.token}`,
+        },
+      }
+    );
+    localStorage.setItem("thevickyk.com-userInfo", JSON.stringify(data));
+    localStorage.removeItem("thevickyk.com-cartItems");
+    dispatch({
+      type: USER_LOGIN_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({ type: USER_LOGIN_FAIL, payload: error.response.data.message });
+  }
+};

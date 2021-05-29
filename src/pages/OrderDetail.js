@@ -51,13 +51,26 @@ function OrderDetail(props) {
         Order history
       </Typography>
       {loading ? (
-        <div>Loading...</div>
+        <div>
+          <i className="fa fa-spinner fa-spin"></i>Loading...
+        </div>
       ) : error ? (
         <div>some error here</div>
       ) : (
         <>
           <Row className="mt-4 mb-4">
             <Col lg={12} md={12} sm={12} xs={12}>
+              {orderList.data.length === 0 && (
+                <Typography
+                  variant="body2"
+                  color="textSecondary"
+                  component="p"
+                  style={{ textAlign: "center" }}
+                  className="mt-2 text text-danger"
+                >
+                  You didn't place any order yet.
+                </Typography>
+              )}
               <div className={classes.root}>
                 {orderList.data.map((order, index) => {
                   return <Order order={order} index={index} key={index} />;

@@ -25,10 +25,12 @@ function Homepage() {
   };
 
   const filterData = () => {
+    setPage(1);
     dispatch(productlist(page, filterKeyword));
   };
 
   const resetFilter = () => {
+    setPage(1);
     setFilterKeyword("");
     dispatch(productlist(page, ""));
   };
@@ -71,7 +73,10 @@ function Homepage() {
       </Row>
 
       {loading ? (
-        <div>Loading...</div>
+        <div>
+          <i className="fa fa-spinner fa-spin"></i>
+          Loading ...
+        </div>
       ) : error ? (
         <div>some error here</div>
       ) : (

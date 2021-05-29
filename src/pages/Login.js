@@ -13,8 +13,13 @@ import Facebook from "@material-ui/icons/Facebook";
 import { Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../actions/userActions";
-// import Google from "@material-ui/icons";
+import {
+  login,
+  loginWithFacebook,
+  loginWithGoogle,
+} from "../actions/userActions";
+import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
+import GoogleLogin from "react-google-login";
 
 const useStyles = makeStyles((theme) => ({
   margin: {
@@ -79,6 +84,19 @@ function Login(props) {
       props.history.push("/");
     }
   }, [props.history, user]);
+
+  const responseFacebook = (response) => {
+    dispatch(loginWithFacebook(response.accessToken, response.userID));
+  };
+
+  const responseSuccessGoogle = (response) => {
+    dispatch(loginWithGoogle(response.tokenId));
+  };
+
+  const responseErrorGoogle = (response) => {
+    alert("Something went wrong, Please try again!");
+  };
+
   return (
     <Row>
       <Col lg={3}></Col>
@@ -151,29 +169,56 @@ function Login(props) {
             </div>
             <h6 style={{ marginTop: "20px" }}>OR</h6>
             <div>
-              <Button
-                variant="contained"
-                color="primary"
-                startIcon={<Facebook />}
-                style={{ width: "100%", marginLeft: "1%", marginTop: "10px" }}
-              >
-                Continue with Facebook
-              </Button>
+              <FacebookLogin
+                appId={`${process.env.REACT_APP_FACEBOOK_APP_ID}`}
+                autoLoad={false}
+                callback={responseFacebook}
+                render={(renderProps) => (
+                  <Button
+                    onClick={renderProps.onClick}
+                    variant="contained"
+                    color="primary"
+                    startIcon={<Facebook />}
+                    style={{
+                      width: "100%",
+                      marginLeft: "1%",
+                      marginTop: "10px",
+                    }}
+                  >
+                    Continue with Facebook
+                  </Button>
+                )}
+              />
             </div>
 
             <div>
-              <Button
-                variant="contained"
-                color="primary"
-                style={{ width: "100%", marginLeft: "1%", marginTop: "10px" }}
-              >
-                <i
-                  className="fa fa-google-plus-circle"
-                  aria-hidden="true"
-                  style={{ fontSize: "20px", marginLeft: "-20px" }}
-                ></i>{" "}
-                &nbsp; Continue with Google
-              </Button>
+              <GoogleLogin
+                clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+                render={(renderProps) => (
+                  <Button
+                    onClick={renderProps.onClick}
+                    variant="contained"
+                    color="primary"
+                    style={{
+                      width: "100%",
+                      marginLeft: "1%",
+                      marginTop: "10px",
+                    }}
+                  >
+                    <i
+                      className="fa fa-google-plus-circle"
+                      aria-hidden="true"
+                      style={{ fontSize: "20px", marginLeft: "-20px" }}
+                    ></i>{" "}
+                    &nbsp; Continue with Google
+                  </Button>
+                )}
+                buttonText="Login"
+                onSuccess={responseSuccessGoogle}
+                onFailure={responseErrorGoogle}
+                cookiePolicy={"single_host_origin"}
+              />
+              ,
             </div>
 
             <div style={{ marginTop: "10px" }}>
