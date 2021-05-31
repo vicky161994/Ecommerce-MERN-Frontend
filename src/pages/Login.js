@@ -34,6 +34,8 @@ function Login(props) {
   const [passwordError, setPasswordError] = useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
   const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
+  const [isFacebookProcessing, setIsFacebookProcessing] = useState(false);
+  const [isGoogleProcessing, setIsGoogleProcessing] = useState(false);
   const classes = useStyles();
   const userLogin = useSelector((state) => state.userLogin);
   const { user, error } = userLogin;
@@ -86,10 +88,12 @@ function Login(props) {
   }, [props.history, user]);
 
   const responseFacebook = (response) => {
+    setIsFacebookProcessing(true);
     dispatch(loginWithFacebook(response.accessToken, response.userID));
   };
 
   const responseSuccessGoogle = (response) => {
+    setIsGoogleProcessing(true);
     dispatch(loginWithGoogle(response.tokenId));
   };
 
@@ -175,6 +179,7 @@ function Login(props) {
                 callback={responseFacebook}
                 render={(renderProps) => (
                   <Button
+                    disabled={isFacebookProcessing}
                     onClick={renderProps.onClick}
                     variant="contained"
                     color="primary"
@@ -185,7 +190,10 @@ function Login(props) {
                       marginTop: "10px",
                     }}
                   >
-                    Continue with Facebook
+                    Continue with Facebook &nbsp;
+                    {isFacebookProcessing && (
+                      <i className="fa fa-spinner fa-spin"></i>
+                    )}
                   </Button>
                 )}
               />
@@ -196,6 +204,7 @@ function Login(props) {
                 clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
                 render={(renderProps) => (
                   <Button
+                    disabled={isGoogleProcessing}
                     onClick={renderProps.onClick}
                     variant="contained"
                     color="primary"
@@ -210,7 +219,10 @@ function Login(props) {
                       aria-hidden="true"
                       style={{ fontSize: "20px", marginLeft: "-20px" }}
                     ></i>{" "}
-                    &nbsp; Continue with Google
+                    &nbsp; Continue with Google &nbsp;
+                    {isGoogleProcessing && (
+                      <i className="fa fa-spinner fa-spin"></i>
+                    )}
                   </Button>
                 )}
                 buttonText="Login"

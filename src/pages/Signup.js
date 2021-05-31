@@ -16,13 +16,16 @@ import { Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { register } from "../actions/userActions";
+import { loginWithFacebook, loginWithGoogle } from "../actions/userActions";
+import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
+import GoogleLogin from "react-google-login";
 
 const useStyles = makeStyles((theme) => ({
   margin: {
     margin: theme.spacing(1),
   },
 }));
-function Signup() {
+function Signup(props) {
   const [email, setEmail] = useState("");
   const [number, setNumber] = useState("");
   const [password, setPassword] = useState("");
@@ -39,10 +42,19 @@ function Signup() {
   const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
   const [confirmPasswordErrorMessage, setConfirmPasswordErrorMessage] =
     useState("");
+  const [isFacebookProcessing, setIsFacebookProcessing] = useState(false);
+  const [isGoogleProcessing, setIsGoogleProcessing] = useState(false);
   const classes = useStyles();
   const userRegister = useSelector((state) => state.userRegister);
   const { user, loading, error } = userRegister;
   const dispatch = useDispatch();
+  const userLogin = useSelector((state) => state.userLogin);
+  const userLogged = userLogin.user;
+  useEffect(() => {
+    if (userLogged) {
+      props.history.push("/");
+    }
+  }, [props.history, userLogged]);
 
   const handleName = (e) => {
     if (e.target.value === "") {
@@ -155,6 +167,20 @@ function Signup() {
       }
     }
   }, [error, loading, user]);
+
+  const responseFacebook = (response) => {
+    setIsFacebookProcessing(true);
+    dispatch(loginWithFacebook(response.accessToken, response.userID));
+  };
+
+  const responseSuccessGoogle = (response) => {
+    setIsGoogleProcessing(true);
+    dispatch(loginWithGoogle(response.tokenId));
+  };
+
+  const responseErrorGoogle = (response) => {
+    alert("Something went wrong, Please try again!");
+  };
 
   return (
     <Row>
@@ -295,29 +321,63 @@ function Signup() {
             </div>
             <h6 style={{ marginTop: "20px" }}>OR</h6>
             <div>
-              <Button
-                variant="contained"
-                color="primary"
-                startIcon={<Facebook />}
-                style={{ width: "100%", marginLeft: "1%", marginTop: "10px" }}
-              >
-                Continue with Facebook
-              </Button>
+              <FacebookLogin
+                appId={`${process.env.REACT_APP_FACEBOOK_APP_ID}`}
+                autoLoad={false}
+                callback={responseFacebook}
+                render={(renderProps) => (
+                  <Button
+                    disabled={isFacebookProcessing}
+                    onClick={renderProps.onClick}
+                    variant="contained"
+                    color="primary"
+                    startIcon={<Facebook />}
+                    style={{
+                      width: "100%",
+                      marginLeft: "1%",
+                      marginTop: "10px",
+                    }}
+                  >
+                    Continue with Facebook &nbsp;
+                    {isFacebookProcessing && (
+                      <i className="fa fa-spinner fa-spin"></i>
+                    )}
+                  </Button>
+                )}
+              />
             </div>
 
             <div>
-              <Button
-                variant="contained"
-                color="primary"
-                style={{ width: "100%", marginLeft: "1%", marginTop: "10px" }}
-              >
-                <i
-                  className="fa fa-google-plus-circle"
-                  aria-hidden="true"
-                  style={{ fontSize: "20px", marginLeft: "-20px" }}
-                ></i>{" "}
-                &nbsp; Continue with Google
-              </Button>
+              <GoogleLogin
+                clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+                render={(renderProps) => (
+                  <Button
+                    disabled={isGoogleProcessing}
+                    onClick={renderProps.onClick}
+                    variant="contained"
+                    color="primary"
+                    style={{
+                      width: "100%",
+                      marginLeft: "1%",
+                      marginTop: "10px",
+                    }}
+                  >
+                    <i
+                      className="fa fa-google-plus-circle"
+                      aria-hidden="true"
+                      style={{ fontSize: "20px", marginLeft: "-20px" }}
+                    ></i>{" "}
+                    &nbsp; Continue with Google &nbsp;
+                    {isGoogleProcessing && (
+                      <i className="fa fa-spinner fa-spin"></i>
+                    )}
+                  </Button>
+                )}
+                buttonText="Login"
+                onSuccess={responseSuccessGoogle}
+                onFailure={responseErrorGoogle}
+                cookiePolicy={"single_host_origin"}
+              />
             </div>
 
             <div style={{ marginTop: "10px" }}>
