@@ -14,6 +14,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import SocialShare from "../components/dialogs/SocialShare";
 import { addToCart, addWishlist } from "../actions/userActions";
 import { noAuthAddToCart } from "../actions/cartActions";
+
 const useStyles = makeStyles({
   root: {
     marginTop: 49,

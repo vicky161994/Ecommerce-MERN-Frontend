@@ -7,8 +7,10 @@ import Pagination from "react-responsive-pagination";
 import { Button, TextField, Typography } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import RotateLeftIcon from "@material-ui/icons/RotateLeft";
+import AlanHooks from "../components/AlanHooks";
 
-function Homepage() {
+function Homepage(props) {
+  AlanHooks(props);
   const dispatch = useDispatch();
   const [page, setPage] = useState(1);
   const [filterKeyword, setFilterKeyword] = useState("");
@@ -102,13 +104,17 @@ function Homepage() {
         </Row>
       )}
       <Row>
-        <Col lg={12} md={12} sm={12} xs={12}>
-          <Pagination
-            current={page}
-            total={products ? products.totalProduct : 0}
-            onPageChange={paginateData}
-          />
-        </Col>
+        {products && (
+          <Col lg={12} md={12} sm={12} xs={12}>
+            <Pagination
+              current={page}
+              total={
+                products && products.totalProduct ? products.totalProduct : 0
+              }
+              onPageChange={paginateData}
+            />
+          </Col>
+        )}
       </Row>
 
       <style>

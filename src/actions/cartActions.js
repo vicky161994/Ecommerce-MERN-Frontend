@@ -129,48 +129,55 @@ export const manageItemQty = (productId, qty) => async (dispatch, getState) => {
   }
 };
 
-export const noAuthAddToCart = (productId) => async (dispatch, getState) => {
-  dispatch({ type: NO_AUTH_ADD_CART_REQUEST });
-  try {
-    let reducerData;
-    const cartItems = localStorage.getItem("thevickyk.com-cartItems")
-      ? JSON.parse(localStorage.getItem("thevickyk.com-cartItems"))
-      : null;
-    if (cartItems) {
-      if (cartItems.some((cart) => cart.productId === productId)) {
-        const index = cartItems.findIndex(
-          (cart) => cart.productId === productId
-        );
-        cartItems[index].qty = cartItems[index].qty + 1;
-        reducerData = cartItems;
-      } else {
-        let data = { productId, qty: 1 };
-        cartItems.push(data);
-        reducerData = cartItems;
+export const noAuthAddToCart =
+  (productId, counter) => async (dispatch, getState) => {
+    if (counter === 1) {
+      dispatch({ type: NO_AUTH_ADD_CART_REQUEST });
+      try {
+        let reducerData;
+        const cartItems = localStorage.getItem("thevickyk.com-cartItems")
+          ? JSON.parse(localStorage.getItem("thevickyk.com-cartItems"))
+          : null;
+        if (cartItems) {
+          console.log("condition 1");
+          if (cartItems.some((cart) => cart.productId === productId)) {
+            console.log("condition 2");
+            const index = cartItems.findIndex(
+              (cart) => cart.productId === productId
+            );
+            cartItems[index].qty = cartItems[index].qty + 1;
+            reducerData = cartItems;
+          } else {
+            console.log("condition 3");
+            let data = { productId, qty: 1 };
+            cartItems.push(data);
+            reducerData = cartItems;
+          }
+          localStorage.setItem(
+            "thevickyk.com-cartItems",
+            JSON.stringify(cartItems)
+          );
+        } else {
+          console.log("condition 4");
+          let cartItems = [];
+          let data = { productId, qty: 1 };
+          cartItems.push(data);
+          reducerData = cartItems;
+          localStorage.setItem(
+            "thevickyk.com-cartItems",
+            JSON.stringify(cartItems)
+          );
+        }
+        dispatch({ type: NO_AUTH_ADD_CART_SUCCESS, payload: reducerData });
+      } catch (error) {
+        console.log(error);
+        dispatch({
+          type: NO_AUTH_ADD_CART_FAIL,
+          error: error,
+        });
       }
-      localStorage.setItem(
-        "thevickyk.com-cartItems",
-        JSON.stringify(cartItems)
-      );
-    } else {
-      let cartItems = [];
-      let data = { productId, qty: 1 };
-      cartItems.push(data);
-      reducerData = cartItems;
-      localStorage.setItem(
-        "thevickyk.com-cartItems",
-        JSON.stringify(cartItems)
-      );
     }
-    dispatch({ type: NO_AUTH_ADD_CART_SUCCESS, payload: reducerData });
-  } catch (error) {
-    console.log(error);
-    dispatch({
-      type: NO_AUTH_ADD_CART_FAIL,
-      error: error,
-    });
-  }
-};
+  };
 
 export const noAuthgetcartItemList = () => async (dispatch, getState) => {
   dispatch({ type: GET_CART_ITEM_LIST_REQUEST });

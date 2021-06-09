@@ -11,7 +11,6 @@ import ProductDetail from "./pages/ProductDetail";
 import Checkout from "./pages/Checkout";
 import Payment from "./pages/Payment";
 import OrderDetail from "./pages/OrderDetail";
-
 function App() {
   return (
     <BrowserRouter>
