@@ -58,11 +58,12 @@ function ProductDetail(props) {
   };
   const handleCart = () => {
     if (user) {
-      dispatch(addToCart(product._id));
+      dispatch(addToCart(product._id, 1));
     } else {
-      dispatch(noAuthAddToCart(product._id));
+      dispatch(noAuthAddToCart(product._id, 1));
     }
   };
+
   return (
     <Container>
       {openDialog && <SocialShare handleDialog={handleShareButton} />}

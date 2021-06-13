@@ -32,9 +32,11 @@ function Payment(props) {
   const {
     data: { items, address },
   } = orderDetails;
-
   const toPrice = (num) => Number(num.toFixed(2));
-  totalAmt = items.reduce((a, c) => a + c.qty * c.price, 0);
+  if (items) {
+    totalAmt = items.reduce((a, c) => a + c.qty * c.price, 0);
+  }
+
   shippingPrice = totalAmt < 100 ? toPrice(10) : toPrice(0);
   taxPrice = toPrice(0.15 * totalAmt);
   const totalPrice = totalAmt + shippingPrice + taxPrice;

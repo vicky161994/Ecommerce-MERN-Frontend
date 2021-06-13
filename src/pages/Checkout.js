@@ -6,8 +6,10 @@ import Button from "@material-ui/core/Button";
 import Address from "../components/Address";
 import { AddAddressInOrderDetails } from "../actions/orderActions";
 import NewAddress from "../components/dialogs/NewAddress";
+import AlanHooks from "../components/AlanHooks";
 
 function Checkout(props) {
+  AlanHooks(props);
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
   const { user } = userLogin;

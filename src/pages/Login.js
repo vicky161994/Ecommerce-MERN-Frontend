@@ -28,6 +28,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Login(props) {
+  const [redirect, setRedirect] = useState(
+    props.location.search
+      ? props.location.search.split("?")[1].split("=")[1]
+      : "/"
+  );
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState(false);
@@ -83,7 +88,7 @@ function Login(props) {
   };
   useEffect(() => {
     if (user) {
-      props.history.push("/");
+      props.history.push(redirect);
     }
   }, [props.history, user]);
 
