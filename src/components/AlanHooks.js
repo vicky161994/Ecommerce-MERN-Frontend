@@ -71,7 +71,15 @@ function AlanHooks(props) {
           dispatch(productlist(1, commandData.searchKeyword));
         }
         if (commandData.command === "go-login") {
-          props.history.push("/login");
+          if (user) {
+            alanBtnInstance.playText(
+              "Sorry you are logged in, if you want to go to the login page please log out first"
+            );
+            return false;
+          } else {
+            alanBtnInstance.playText("navigating to the login page");
+            props.history.push("/login");
+          }
         }
         if (commandData.command === "go-signup") {
           props.history.push("/signup");
@@ -135,7 +143,6 @@ function AlanHooks(props) {
               selectedAddress = user.address[parsedNumber - 1];
               alanBtnInstance.playText(`shipping address added successfully`);
               if (selectedAddress) {
-                console.log(selectedAddress);
                 await dispatch(AddAddressInOrderDetails(selectedAddress));
                 props.history.push("payment");
                 return false;

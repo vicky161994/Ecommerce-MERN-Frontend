@@ -36,7 +36,7 @@ function Payment(props) {
   if (items) {
     totalAmt = items.reduce((a, c) => a + c.qty * c.price, 0);
   }
-
+  console.log(totalAmt);
   shippingPrice = totalAmt < 100 ? toPrice(10) : toPrice(0);
   taxPrice = toPrice(0.15 * totalAmt);
   const totalPrice = totalAmt + shippingPrice + taxPrice;
@@ -206,11 +206,11 @@ function Payment(props) {
                 justifyContent: "space-between",
               }}
             >
-              <Typography gutterBottom variant="b" component="b">
-                Order Total
+              <Typography gutterBottom component="b">
+                <strong>Order Total</strong>
               </Typography>
-              <Typography gutterBottom variant="b" component="b">
-                ${totalPrice.toFixed(2)}
+              <Typography gutterBottom component="b">
+                <strong>${totalPrice.toFixed(2)}</strong>
               </Typography>
             </div>
             <div
