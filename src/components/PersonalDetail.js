@@ -161,13 +161,13 @@ function PersonalDetail(props) {
           <Typography color="textSecondary" component="p">
             Email: {user.email}
           </Typography>
-          <Tooltip
+          {/* <Tooltip
             title="email verified"
             placement="right-start"
             onClick={openEmailVerificationDailog}
           >
             <CheckCircleIcon color="primary" />
-          </Tooltip>
+          </Tooltip> */}
         </div>
         <div>
           {!isNumberEdit && (
@@ -177,13 +177,13 @@ function PersonalDetail(props) {
                 className="edit-icon"
                 onClick={() => handleChange("number")}
               />
-              <Tooltip
+              {/* <Tooltip
                 onClick={openNumberVerificationDailog}
                 title="Mobile number not verified. Click on icon for verify"
                 placement="right-start"
               >
                 <CheckCircleIcon />
-              </Tooltip>
+              </Tooltip> */}
             </Typography>
           )}
           {isNumberEdit && (
